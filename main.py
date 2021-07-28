@@ -1,6 +1,10 @@
 import requests
 import pprint
 
+
+def build_csv(longer_list, shorter_list):
+    res_string = ''
+
 REQ_CONST_OKEX = 'https://www.okex.com'
 REQ_CONST_BINANCE = 'https://api.binance.com'
 req_method_okex = '/api/v5/public/instruments'
@@ -15,14 +19,11 @@ okex_instruments = []
 response_okex = requests.get(url_okex, params=params_okex)
 for instrument in response_okex.json()['data']:
     okex_instruments += [[instrument['instId'], instrument['baseCcy'], instrument['quoteCcy']]]
-print(okex_instruments)
-pprint.pprint(response_okex.json())
 
 binance_instruments = []
 response_binance = requests.get(url_binance)
 for instrument in response_binance.json()['symbols']:
     binance_instruments += [[instrument['symbol'], instrument['baseAsset'], instrument['quoteAsset']]]
-pprint.pprint(response_binance.json())
 
 with open('response_okex.txt', 'w') as f:
     f.write(str(okex_instruments))
